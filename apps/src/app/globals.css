@@ -1,0 +1,251 @@
+@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Inter:wght@400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --night: #0d0217;
+  --night-2: #1a0b2e;
+  --pumpkin: #ff7518;
+  --ectoplasm: #39ff14;
+  --witch: #8b5cf6;
+  --blood: #b91c1c;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background:
+    linear-gradient(180deg, rgba(13, 2, 23, 0.62) 0%, rgba(26, 11, 46, 0.74) 100%),
+    url('/images/background.jpg') center / cover no-repeat fixed,
+    var(--night);
+  color: #e9e4f5;
+  min-height: 100vh;
+}
+
+/* Creepster lives in the base layer so Tailwind utilities (.font-mono) still win.
+   h3 excluded: filenames and technical subheadings stay in Inter/mono. */
+@layer base {
+  h1, h2, .spooky-title {
+    font-family: 'Creepster', 'Inter', cursive;
+    letter-spacing: 0.04em;
+  }
+}
+
+/* Spec preview headings must stay readable */
+.md-preview h1, .md-preview h2, .md-preview h3, .md-preview h4 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  letter-spacing: normal;
+}
+
+.glow-pumpkin {
+  color: var(--pumpkin);
+  text-shadow: 0 0 18px rgba(255, 117, 24, 0.65), 0 0 42px rgba(255, 117, 24, 0.3);
+}
+
+.glow-ecto {
+  color: var(--ectoplasm);
+  text-shadow: 0 0 18px rgba(57, 255, 20, 0.55), 0 0 42px rgba(57, 255, 20, 0.25);
+}
+
+.glow-witch {
+  color: var(--witch);
+  text-shadow: 0 0 18px rgba(139, 92, 246, 0.7), 0 0 42px rgba(139, 92, 246, 0.35);
+}
+
+/* Dark haunted card: replaces white panels */
+.card-haunt {
+  background: rgba(26, 11, 46, 0.72);
+  border: 1px solid rgba(139, 92, 246, 0.45);
+  border-radius: 0.75rem;
+  box-shadow: 0 0 24px rgba(139, 92, 246, 0.18), inset 0 1px 0 rgba(233, 228, 245, 0.06);
+  backdrop-filter: blur(4px);
+}
+
+.card-haunt:hover {
+  border-color: var(--pumpkin);
+  box-shadow: 0 0 28px rgba(255, 117, 24, 0.28);
+}
+
+/* Buttons */
+.btn-haunt {
+  background: linear-gradient(180deg, #9333ea, #6b21a8);
+  border: 1px solid rgba(139, 92, 246, 0.6);
+  box-shadow: 0 0 14px rgba(139, 92, 246, 0.4);
+  transition: all 0.2s;
+}
+.btn-haunt:hover:not(:disabled) {
+  box-shadow: 0 0 22px rgba(139, 92, 246, 0.7);
+  transform: translateY(-1px);
+}
+.btn-haunt:disabled {
+  opacity: 0.5;
+}
+
+.btn-pumpkin {
+  background: linear-gradient(180deg, #ff8c3a, #e05e00);
+  border: 1px solid rgba(255, 117, 24, 0.6);
+  box-shadow: 0 0 14px rgba(255, 117, 24, 0.4);
+  transition: all 0.2s;
+}
+.btn-pumpkin:hover:not(:disabled) {
+  box-shadow: 0 0 22px rgba(255, 117, 24, 0.7);
+  transform: translateY(-1px);
+}
+.btn-pumpkin:disabled {
+  opacity: 0.5;
+}
+
+/* Inputs */
+.input-haunt {
+  background: rgba(13, 2, 23, 0.8);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  color: #e9e4f5;
+}
+.input-haunt:focus {
+  outline: none;
+  border-color: var(--ectoplasm);
+  box-shadow: 0 0 12px rgba(57, 255, 20, 0.3);
+}
+.input-haunt::placeholder {
+  color: #a79ec4;
+}
+
+/* Markdown preview (SpecEditor) — readable docs on the night theme */
+.md-preview h1, .md-preview h2, .md-preview h3, .md-preview h4 {
+  margin: 1rem 0 0.5rem;
+  color: var(--pumpkin);
+}
+.md-preview h1 { font-size: 1.6rem; }
+.md-preview h2 { font-size: 1.3rem; }
+.md-preview h3 { font-size: 1.1rem; }
+.md-preview p { margin: 0.5rem 0; line-height: 1.6; }
+.md-preview ul, .md-preview ol {
+  margin: 0.5rem 0 0.5rem 1.5rem;
+  line-height: 1.6;
+}
+.md-preview ul { list-style: disc; }
+.md-preview ol { list-style: decimal; }
+.md-preview li { margin: 0.25rem 0; }
+.md-preview strong { color: #fff; }
+.md-preview a { color: var(--ectoplasm); text-decoration: underline; }
+.md-preview hr { border-color: rgba(139, 92, 246, 0.4); margin: 1rem 0; }
+.md-preview blockquote {
+  border-left: 3px solid var(--witch);
+  padding-left: 1rem;
+  margin: 0.75rem 0;
+  color: #c9bfe0;
+}
+.md-preview code {
+  background: rgba(139, 92, 246, 0.18);
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  border-radius: 0.25rem;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.85em;
+  color: var(--ectoplasm);
+}
+.md-preview pre {
+  background: #0a0114;
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  margin: 0.75rem 0;
+}
+.md-preview pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #e9e4f5;
+}
+.md-preview table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75rem 0;
+  font-size: 0.9rem;
+}
+.md-preview th {
+  background: rgba(139, 92, 246, 0.3);
+  color: #fff;
+  font-weight: 700;
+  text-align: left;
+}
+.md-preview th, .md-preview td {
+  border: 1px solid rgba(139, 92, 246, 0.45);
+  padding: 0.5rem 0.75rem;
+}
+.md-preview tr:nth-child(even) td {
+  background: rgba(139, 92, 246, 0.08);
+}
+
+/* Card outlines glow in the app's own colour, pulsing */
+.card-glow-ecto {
+  border-color: var(--ectoplasm);
+  animation: pulse-ecto 2.4s ease-in-out infinite;
+}
+.card-glow-ecto:hover {
+  animation: none;
+  box-shadow: 0 0 48px rgba(57, 255, 20, 0.75), 0 0 96px rgba(57, 255, 20, 0.35);
+}
+@keyframes pulse-ecto {
+  0%, 100% { box-shadow: 0 0 26px rgba(57, 255, 20, 0.45), 0 0 52px rgba(57, 255, 20, 0.18); }
+  50% { box-shadow: 0 0 44px rgba(57, 255, 20, 0.7), 0 0 88px rgba(57, 255, 20, 0.32); }
+}
+.card-glow-witch {
+  border-color: var(--witch);
+  animation: pulse-witch 2.4s ease-in-out infinite;
+}
+.card-glow-witch:hover {
+  animation: none;
+  box-shadow: 0 0 48px rgba(139, 92, 246, 0.8), 0 0 96px rgba(139, 92, 246, 0.4);
+}
+@keyframes pulse-witch {
+  0%, 100% { box-shadow: 0 0 26px rgba(139, 92, 246, 0.5), 0 0 52px rgba(139, 92, 246, 0.2); }
+  50% { box-shadow: 0 0 44px rgba(139, 92, 246, 0.75), 0 0 88px rgba(139, 92, 246, 0.38); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-glow-ecto, .card-glow-witch { animation: none; }
+  .card-glow-ecto { box-shadow: 0 0 34px rgba(57, 255, 20, 0.5); }
+  .card-glow-witch { box-shadow: 0 0 34px rgba(139, 92, 246, 0.55); }
+}
+
+/* Landing atmosphere: drifting fog + flying bats */
+.fog {
+  position: absolute;
+  bottom: -5%;
+  width: 70vw;
+  height: 30vh;
+  border-radius: 50%;
+  filter: blur(50px);
+  background: radial-gradient(ellipse, rgba(190, 170, 230, 0.12), transparent 70%);
+}
+.fog-a { left: -20vw; animation: fog-a 36s ease-in-out infinite alternate; }
+.fog-b { right: -20vw; animation: fog-b 44s ease-in-out infinite alternate; }
+@keyframes fog-a { from { transform: translateX(0); } to { transform: translateX(45vw); } }
+@keyframes fog-b { from { transform: translateX(0); } to { transform: translateX(-45vw); } }
+
+.bat-fly {
+  position: absolute;
+  top: 12%;
+  left: -10%;
+  animation: bat-cross 16s linear infinite;
+}
+.bat-b {
+  top: 22%;
+  animation-delay: 8s;
+  animation-duration: 20s;
+}
+@keyframes bat-cross {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(30vw, -4vh); }
+  50% { transform: translate(60vw, 2vh); }
+  75% { transform: translate(90vw, -3vh); }
+  100% { transform: translate(120vw, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fog-a, .fog-b { animation: none; }
+  .bat-fly { display: none; }
+}
