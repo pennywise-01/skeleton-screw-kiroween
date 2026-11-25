@@ -1,70 +1,95 @@
 # 🦴 Skeleton
 
-One reusable React component library. Two distinct web apps built on it.
+**One reusable React component library. Two haunted apps built on it. All AI powered by Kiro CLI at runtime.**
 
-- **`skeleton/`** — the component library: `AgentProvider` (AI provider switching), `FileUpload`, `CodePreview` (diff view), `SpecEditor`, plus a transport-agnostic agent client with zod validation.
-- **`apps/`** — one Next.js app hosting two route-separated applications:
-  - **`/lambda`** — Lambda Scaffolder: prompt → spec → code → download ZIP → deploy manually (runtime + handler guidance shown).
-  - **`/a11y`** — A11y Auditor: upload → AI audit (Kiro CLI reads every file) → AI fix → diff preview → download.
+Built for the Kiroween hackathon (Skeleton Crew category). The idea: prove one lean skeleton can power two completely unrelated products -- and that Kiro CLI works as a production AI backend, not just a dev tool.
 
-The two apps share the skeleton but no domain code. ESLint `no-restricted-imports` rules enforce the boundary.
+**Live demo:** http://18.143.74.194:3000 (real Kiro CLI, no demo fixtures)
 
-## Setup
+## The Two Apps
+
+### ⚡ Lambda Scaffolder (`/lambda`)
+
+Turn one sentence into a deployable AWS Lambda function.
+
+1. **Prompt** -- describe your function, or click a starter prompt (Node.js and Python examples included).
+2. **Spec** -- Kiro writes a full markdown spec. Edit it, preview it, or split the view side by side.
+3. **Code** -- Kiro generates the handler, tests, package manifest and README. Copy or download per file, or grab everything as a ZIP with the exact runtime and handler to pick in the AWS Console.
+
+Step pills show where you are and let you jump back without losing generated work.
+
+### 🕸️ A11y Auditor (`/a11y`)
+
+Drop in code, get an AI accessibility audit and AI-written fixes.
+
+1. **Upload** -- drop individual files or a whole ZIP (extracted in your browser). Try the haunted example if you have nothing handy.
+2. **Audit** -- Kiro CLI reads every file and reports WCAG violations in any language or framework: line, column, rule, and why it matters. No hardcoded rule sets.
+3. **Exorcise** -- fix one file or Fix All. The ghost counter drops to zero, then re-scan to prove the fixes hold.
+
+Findings are grouped per file, fixes show as a syntax-highlighted diff, and you can view the final clean code before downloading.
+
+## The Shared Skeleton
+
+Both apps are built from the same 6 primitives in `skeleton/`, with zero domain code shared:
+
+| Component | What it does | Used by |
+|---|---|---|
+| `AgentProvider` | Kiro CLI status, health checks, streaming agent calls | Both |
+| `SpecEditor` | Markdown editor with Edit / Split / Preview tabs | Lambda |
+| `CodePreview` | Syntax-highlighted code and diff view (Diff / Final / Before tabs, copy, line numbers) | Both |
+| `FileUpload` | Drag-and-drop upload with ZIP extraction and rejection messages | A11y |
+| `SpookyLoader` | Progress bar with live elapsed time and honest estimates | Both |
+| `InfoModal` | Instruction dialog with focus trap and session dismissal | Both |
+
+ESLint `no-restricted-imports` rules enforce the boundary -- neither app can import from the other.
+
+## How to Run It
 
 ```bash
 cd skeleton && npm install && npm run build
 cd ../apps && npm install && npm run dev
 ```
 
-Open http://localhost:3000 — the landing page links both apps.
+Open http://localhost:3000 -- the landing page links both apps.
+
+**AI provider:** the app shells out to an authenticated `kiro-cli` on the machine (`kiro-cli chat --no-interactive`). No API keys anywhere. Log in once with `kiro-cli login` and both apps work.
+
+**Production:**
+
+```bash
+cd apps && npm run build && npm start
+```
 
 ## Tests
 
 ```bash
 cd skeleton && npm test        # unit: schemas, agent client
-cd apps && npm test            # unit: scan route (ESLint integration)
-cd apps && npm run test:e2e    # Playwright: both workflows + axe on our own pages
+cd apps && npm test            # unit: scan route
+cd apps && npm run test:e2e    # Playwright: both workflows + axe-core on our own pages
 cd apps && npm run lint        # boundary rules
-cd apps && npm run build       # production build (also builds the starter ZIP)
 ```
+
+17 unit tests + 6 e2e tests, all green. The axe-core checks audit the app's own pages in populated states -- an accessibility tool that fails WCAG itself would be embarrassing.
 
 ## Demo Mode
 
-Set `DEMO_MODE=true` in `apps/.env.local` to make every AI and AWS call return cached fixtures. The public demo works with zero secrets; the e2e suite runs entirely in demo mode.
-
-## Environment Variables
+Set `DEMO_MODE=true` in `apps/.env.local` to make every AI call return cached fixtures. Useful for trying the UI with zero setup; the e2e suite runs entirely in demo mode.
 
 | Variable | Used by | Required |
 |---|---|---|
 | `DEMO_MODE` | all API routes | No (fixtures when `true`) |
 
-The app shells out to an authenticated `kiro-cli` on the machine — no API keys needed anywhere.
+## Built With
 
-## Dependencies & Pre-Existing Work
-
-This project was built from scratch during the Kiroween hackathon. No project-specific starter templates or boilerplate were used. The following standard development resources power the implementation:
-
+- **AI runtime:** [kiro-cli](https://kiro.dev) headless chat -- every audit, spec, codegen and fix call
 - **Framework:** Next.js 14 (App Router), React 18, Tailwind CSS
-- **Component library:** react-dropzone (uploads), react-syntax-highlighter (code/diff view), react-markdown (spec preview), diff (patch generation), zod (schema validation)
-- **Agent layer:** kiro-cli (headless chat)
-- **A11y engine:** kiro-cli (AI audit, no hardcoded rules)
-- **Packaging:** JSZip (client-side ZIP downloads)
+- **Skeleton:** react-dropzone, react-syntax-highlighter, react-markdown + remark-gfm, diff, zod, tsup
+- **Packaging:** JSZip + file-saver (client-side ZIP downloads)
 - **Testing:** Vitest, Playwright, axe-core
-- **Build:** tsup (skeleton), archiver (starter ZIP)
+- **Deployment:** AWS EC2 (t3.micro, Amazon Linux 2023), kiro-cli authenticated via Google device flow
 
-All application logic — the skeleton library, both apps, and the API routes — was authored during the submission period.
+Built from scratch during the hackathon -- no starter templates or pre-existing project code.
 
-## API & Service Integrations
+## License
 
-This project integrates the following third-party services. Users provide their own credentials; no service is called without explicit user action:
-
-- **Kiro AI:** Uses the locally installed, already-authenticated `kiro-cli`. No API key is stored or transmitted by this app.
-
-The app never calls AWS. The Lambda app produces a ZIP; the user deploys it from their own AWS Console or CLI.
-
-**Privacy:** The a11y audit and fix features send file contents to Kiro AI via the local `kiro-cli`. Fixes are shown as a diff preview before download; nothing is written back to the user's files by the server.
-
-## Live Demo
-
-> **Demo application:** https://\<deployed-url\>
-> Runs with `DEMO_MODE=true` so judges can exercise both apps without any credentials.
+MIT

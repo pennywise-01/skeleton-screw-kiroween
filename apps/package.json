@@ -12,15 +12,12 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@aws-sdk/client-lambda": "^3.1164.0",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
     "eslint": "^8.57.0",
-    "eslint-plugin-jsx-a11y": "^6.8.0",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
     "next": "^14.2.0",
-    "parse5": "^8.1.1",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "skeleton": "file:../skeleton",
@@ -29,12 +26,10 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
     "@playwright/test": "^1.65.0",
-    "@types/eslint": "^8.56.0",
     "@types/file-saver": "^2.0.7",
     "@types/node": "^20.11.0",
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",
-    "archiver": "^6.0.2",
     "autoprefixer": "^10.4.17",
     "eslint-config-next": "^14.2.35",
     "postcss": "^8.4.33",
